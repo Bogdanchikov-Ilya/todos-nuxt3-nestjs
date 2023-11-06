@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5">
+  <div class="p-5 container mx-auto max-w-2xl border mt-10">
     <TodoCreateTaskModal v-if="isOpenCreateTaskModal"
                          @closeModal="closeModal"
                          @updateTasksList="tasksList.refresh"

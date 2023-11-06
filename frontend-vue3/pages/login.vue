@@ -13,12 +13,19 @@
   </form>
 </template>
 <script setup lang="ts">
+import {useCookie} from "#app";
+
+definePageMeta({
+  layout: "login-layout",
+});
 const router = useRouter();
+import { useLoginStore } from '@/stores/login'
 import * as authService from '@/services/authService'
 
 const email = ref<string>('')
 const password = ref<string>('')
 const showError = ref<boolean>(false)
+const loginStore = useLoginStore()
 const onSubmit = async () => {
   const res  = await authService.login(email.value, password.value)
 
@@ -28,6 +35,21 @@ const onSubmit = async () => {
   }
   const token = useCookie('token')
   token.value = res.value.access_token
+  // loginStore.setUser(token)
+
+  // function parseJwt (token) {
+  //   var base64Url = token.split('.')[1];
+  //   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  //   var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+  //     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  //   }).join(''));
+  //
+  //   return JSON.parse(jsonPayload);
+  // }
+
+  // loginStore.setUser(parseJwt(token.value))
+
+
 
   await router.push('/')
 }
